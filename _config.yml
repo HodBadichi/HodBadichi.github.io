@@ -37,6 +37,7 @@ linkedin_username: hod-badihi-b95215219
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 
 mathjax: true
 

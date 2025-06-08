@@ -1,4 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2025-06-08T21:08:09+03:00</updated><id>http://0.0.0.0:4000/feed.xml</id><subtitle>performance networking and everything in between</subtitle><entry><title type="html">Understanding Memory Level Parallelism Through Binary Search</title><link href="http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus.html" rel="alternate" type="text/html" title="Understanding Memory Level Parallelism Through Binary Search" /><published>2025-06-01T00:00:00+03:00</published><updated>2025-06-01T00:00:00+03:00</updated><id>http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus</id><content type="html" xml:base="http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus.html"><![CDATA[<p><strong>Code:</strong> You can find the code used for this analysis in the following GitHub repository: <a href="https://github.com/HodBadichi/Posts-Code/tree/main/19122024">Posts-Code/19122024</a></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2025-06-08T22:30:45+03:00</updated><id>http://0.0.0.0:4000/feed.xml</id><title type="html">Hod’s Blog</title><subtitle>performance networking and everything in between</subtitle><author><name>Contact me</name></author><entry><title type="html">Adaptive Load Balancing and Failure Detection using REPS</title><link href="http://0.0.0.0:4000/2025/06/08/Adaptive-Load-Balancing-and-Failure-Detection-using-REPS.html" rel="alternate" type="text/html" title="Adaptive Load Balancing and Failure Detection using REPS" /><published>2025-06-08T00:00:00+03:00</published><updated>2025-06-08T00:00:00+03:00</updated><id>http://0.0.0.0:4000/2025/06/08/Adaptive%20Load%20Balancing%20and%20Failure%20Detection%20using%20REPS</id><content type="html" xml:base="http://0.0.0.0:4000/2025/06/08/Adaptive-Load-Balancing-and-Failure-Detection-using-REPS.html"><![CDATA[<p><strong>Paper:</strong> <a href="https://arxiv.org/html/2407.21625v3">REPS - Recycled Entropy Packet Spraying for Adaptive Load Balancing and Failure Mitigation</a></p>
+
+<h1 id="adaptive-load-balancing-and-failure-detection-using-reps">Adaptive Load Balancing and Failure Detection using REPS</h1>
+
+<p>Networks need two main things: load balancing and catching problems early. When networks get busy, all the data might try to use just one path, even when there are many other paths available. This is like having a big highway with many lanes, but everyone crowds into just one lane. In a fat tree topology, two connections might overload one switch when they could have used any other switch instead:</p>
+
+<p><img src="/assets/images/2025/6/8/fat-tree.png" alt="Fat tree example" width="800" /></p>
+
+<p>While previous methods have tackled network load balancing and failure handling, REPS is specifically engineered for the unique demands of “next-generation” out-of-order networks, especially those supporting intensive AI workloads. Its authors developed REPS to effectively resolve network failures and optimize load balancing within this distinct and evolving network environment.</p>
+
+<h2 id="load-balancing-through-caching-in-reps">Load balancing through caching in REPS</h2>
+
+<p>REPS achieves load balancing by maintaining a circular buffer that stores Entropy Values (EVs). These EVs represent specific, good-performing network paths. Each path in a connection is identified by an EV, which is embedded in the outgoing packet and guides it through the network.
+<img src="/assets/images/2025/6/8/circular_buffer.png" alt="" width="400" /></p>
+
+<p>The caching and selection is comprised of two simple steps:</p>
+
+<ol>
+  <li>Retrieve an EV (path identifier) from the circular buffer’s Tail and send packet along that path</li>
+  <li>Upon receiving ACK, evaluate packet success: only EVs from packets without congestion signals (ECN marks) are added back to the circular buffer’s Head, maintaining a cache of well-performing paths</li>
+</ol>
+
+<p>Note: When the buffer is empty, an EV is chosen randomly.</p>
+
+<p>How this solves the congestion problem:
+Let’s use the example of a congested switch in a fat tree network.
+When a switch detects congestion, it marks the packet with an ECN. Upon receiving this marked packet, the sender knows that the EV path taken by that packet is currently problematic due to congestion.
+Crucially, REPS will not consider this ECN-marked EV as “good-performing.” Consequently, it will not add it back into the buffer as a preferred path, or it will eventually be pushed out by other, genuinely good-performing EVs. The next time REPS needs to send a packet, it will automatically select a different, currently “good” EV from its buffer, thereby actively avoiding the congested path.</p>
+
+<h2 id="failure-mitigation-in-reps">Failure mitigation in REPS</h2>
+<p>When a cable fails, routing systems require time (approximately 10 ms according to the paper) to detect the failure and redirect traffic away from the failed path. During this detection window, packets continue being sent to the broken link and are lost. With typical parameters (4 KiB packets, 400 Gbps link speed), this 10 ms delay results in over 120,000 lost packets - approximately 0.5 GB of data.</p>
+
+<p>REPS addresses this issue through a simple timeout-based failure detection mechanism. When a failure is detected, REPS enters “freeze mode” for a temporary period. During freeze mode, REPS:</p>
+
+<ol>
+  <li>Stops exploring new EVs (avoiding potentially failed paths)</li>
+  <li>Reuses existing EVs from the circular buffer, even if they may be invalidated</li>
+</ol>
+
+<p>By using freeze mode the authors prioritizes avoiding failed paths immediately when failure is suspected. Even if triggered by mistake (confusing congestion with failure), REPS still maintains good load balancing, making it safe to enter freeze mode conservatively.</p>
+
+<h2 id="evaluation">Evaluation</h2>
+
+<p>The authors tested REPS using both large simulations and real FPGA hardware to see how well it works in different situations. This graph demonstrates REPS’ effectiveness when dealing with an imbalanced network - specifically when one port (shown in green) operates at only 200 Gbps while others run at full 400 Gbps capacity:</p>
+
+<p><img src="/assets/images/2025/6/8/evaluation-part.png" alt="Evaluation part" width="600" /></p>
+
+<p>First lets understand what we’re looking at,
+this graph compares how well REPS and Oblivious Packet Spraying(OPS) handle port utilization on a switch. Here’s what each axis shows:</p>
+
+<ol>
+  <li>Left Y-axis: Port utilization (how busy the ports are)</li>
+  <li>Right Y-axis: Queue size (how much data is waiting)</li>
+  <li>X-axis: Time</li>
+</ol>
+
+<p>KMin and KMax are the thresholds that trigger congestion control - the system starts managing traffic linearly between these two points.</p>
+
+<p>The key difference is completion time: REPS finishes in about 800ms while OPS takes nearly 1400ms.</p>
+
+<p>Here’s what’s happening: OPS is “oblivious” - it doesn’t notice that one port is slower (200 Gbps instead of 400 Gbps) and keeps sending data to it at the same rate as the faster ports. This causes the slower port queue to hit the KMin threshold, triggering congestion control that ends up slowing down all the other ports too.</p>
+
+<p>REPS is smarter - it quickly figures out which ports are performing well and uses its EV system to redirect traffic to the faster ports, avoiding the congestion problem entirely.</p>]]></content><author><name>Contact me</name></author><category term="networking" /><category term="load-balancing" /><category term="failure-detection" /><category term="reps" /><summary type="html"><![CDATA[Networks need two main things: load balancing and catching problems early. REPS (Recycled Entropy Packet Spraying) is specifically engineered for next-generation out-of-order networks, effectively resolving network failures and optimizing load balancing for intensive AI workloads.]]></summary></entry><entry><title type="html">Understanding Memory Level Parallelism Through Binary Search</title><link href="http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus.html" rel="alternate" type="text/html" title="Understanding Memory Level Parallelism Through Binary Search" /><published>2025-06-01T00:00:00+03:00</published><updated>2025-06-01T00:00:00+03:00</updated><id>http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus</id><content type="html" xml:base="http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus.html"><![CDATA[<p><strong>Code:</strong> You can find the code used for this analysis in the following GitHub repository: <a href="https://github.com/HodBadichi/Posts-Code/tree/main/19122024">Posts-Code/19122024</a></p>
 
 <p>Beyond binary search’s $O(log n)$ complexity lies a story of CPU optimization. Modern processors don’t wait for memory they predict, prefetch, and parallelize memory operations, turning what seems like a simple algorithm into a showcase of memory level parallelism.</p>
 
@@ -141,4 +203,4 @@
 
 <p>[3] <strong>Intel Performance Monitoring Events</strong>: <a href="https://perfmon-events.intel.com/spxeon.html">Sapphire Rapids Performance Monitoring</a></p>
 
-<p>[4] <strong>Daniel Lemire’s Blog</strong>: <a href="https://lemire.me/blog/tag/mlp/">Memory Level Parallelism showcase</a></p>]]></content><author><name></name></author><category term="cpu-architecture" /><category term="performance" /><category term="memory" /><category term="hardware" /><summary type="html"><![CDATA[Beyond binary search's $O(log n)$ complexity lies a story of CPU optimization. Modern processors don't wait for memory they predict, prefetch, and parallelize memory operations, turning what seems like a simple algorithm into a showcase of memory level parallelism.]]></summary></entry></feed>
+<p>[4] <strong>Daniel Lemire’s Blog</strong>: <a href="https://lemire.me/blog/tag/mlp/">Memory Level Parallelism showcase</a></p>]]></content><author><name>Contact me</name></author><category term="cpu-architecture" /><category term="performance" /><category term="memory" /><category term="hardware" /><summary type="html"><![CDATA[Beyond binary search's $O(log n)$ complexity lies a story of CPU optimization. Modern processors don't wait for memory they predict, prefetch, and parallelize memory operations, turning what seems like a simple algorithm into a showcase of memory level parallelism.]]></summary></entry></feed>

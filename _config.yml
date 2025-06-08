@@ -7,119 +7,51 @@
 #
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-
+#
+# If you need help with YAML syntax, here are some quick references for you:
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
 # Site settings
 # These are used to personalize your new site. If you look in the HTML files,
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: ""
-email:
+
+title: 
+email: badihihod@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Writing about performance, networking, and the things that puzzle me
-github_username: hodbadichi
-minimal_mistakes_skin: default
-search: true
-breadcrumbs: false
-url: ""
-repository: ""
-theme: minimal-mistakes-jekyll
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: jekyllrb
+github_username:  jekyll
+
 # Build settings
-markdown: CommonMark
-highlighter: rouge
-github: [metadata] # Added this to avoid the "No GitHub API authentication could be found. Some fields may be missing or have incorrect data." warning when starting Jekyll.
-feed:
-  posts_limit: 200
+theme: minima
+plugins:
+  - jekyll-feed
 
-# Outputting
-permalink: /blog/:year/:month/:day/:title
-paginate: 50
-paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-
-include:
-  - _pages
+mathjax: true
 
 # Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
 # exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
 #   - Gemfile
 #   - Gemfile.lock
-#   - node_modules
+#   - node_modules/
 #   - vendor/bundle/
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-
-# Plugins (previously gems:)
-plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
-  - jemoji
-  - jekyll-include-cache
-  - jekyll-data
-
-author:
-  name   : "Hod Badichi"
-  #  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "Software engineer interested in performance and networking, writing about things that puzzle me"
-  location: ""
-  links:
-    - label: "RSS"
-      icon: "fas fa-fw fa-rss-square"
-      url: "/feed.xml"
-
-footer:
-  links:
-
-defaults:
-  # _posts
-  - scope:
-      path: "_posts"
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: false
-      comments: false
-      share: false
-      related: false
-      classes: wide
-  # _pages
-  - scope:
-      path: "_pages"
-      type: pages
-    values:
-      layout: single
-      author_profile: true
-      classes: wide
-
-# Removed until I set it up correctly
-#category_archive:
-#  type: liquid
-#  path: /categories/
-#tag_archive:
-#  type: liquid
-#  path: /tags/
-#year_archive:
-#  type: liquid
-#  path: /year-archive/
-
-analytics:
-  provider               : "google-gtag"
-  google:
-    tracking_id          : G-W7W0Q7JFQ0
-
-mathjax:
-  src: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-  config:
-    tex:
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-      displayMath: [['$$', '$$'], ['\\[', '\\]']]
-  processEnvironments: true
-  processEnvironmentsOptions:
-    displayMath: [['$$', '$$'], ['\\[', '\\]']]
-    inlineMath: [['$', '$'], ['\\(', '\\)']]

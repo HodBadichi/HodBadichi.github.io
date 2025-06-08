@@ -1,20 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2025-06-08T09:47:23+03:00</updated><id>http://0.0.0.0:4000/feed.xml</id><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="http://0.0.0.0:4000/jekyll/update/2025/06/08/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2025-06-08T09:10:50+03:00</published><updated>2025-06-08T09:10:50+03:00</updated><id>http://0.0.0.0:4000/jekyll/update/2025/06/08/welcome-to-jekyll</id><content type="html" xml:base="http://0.0.0.0:4000/jekyll/update/2025/06/08/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
-
-<p>Jekyll requires blog post files to be named according to the following format:</p>
-
-<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
-
-<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
-
-<p>Jekyll also offers powerful support for code snippets:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
-
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry><entry><title type="html">Understanding Memory Level Parallelism Through Binary Search</title><link href="http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus.html" rel="alternate" type="text/html" title="Understanding Memory Level Parallelism Through Binary Search" /><published>2025-06-01T00:00:00+03:00</published><updated>2025-06-01T00:00:00+03:00</updated><id>http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus</id><content type="html" xml:base="http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus.html"><![CDATA[<p><strong>Code:</strong> You can find the code used for this analysis in the following GitHub repository: <a href="https://github.com/HodBadichi/Posts-Code/tree/main/19122024">Posts-Code/19122024</a></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2025-06-08T21:08:09+03:00</updated><id>http://0.0.0.0:4000/feed.xml</id><subtitle>performance networking and everything in between</subtitle><entry><title type="html">Understanding Memory Level Parallelism Through Binary Search</title><link href="http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus.html" rel="alternate" type="text/html" title="Understanding Memory Level Parallelism Through Binary Search" /><published>2025-06-01T00:00:00+03:00</published><updated>2025-06-01T00:00:00+03:00</updated><id>http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus</id><content type="html" xml:base="http://0.0.0.0:4000/2025/06/01/memory-parallelism-modern-cpus.html"><![CDATA[<p><strong>Code:</strong> You can find the code used for this analysis in the following GitHub repository: <a href="https://github.com/HodBadichi/Posts-Code/tree/main/19122024">Posts-Code/19122024</a></p>
 
 <p>Beyond binary search’s $O(log n)$ complexity lies a story of CPU optimization. Modern processors don’t wait for memory they predict, prefetch, and parallelize memory operations, turning what seems like a simple algorithm into a showcase of memory level parallelism.</p>
 
@@ -46,7 +30,7 @@
 
 <h2 id="measuring-memory-level-parallelism">Measuring Memory Level Parallelism</h2>
 
-<p>Unlike other performance metrics, MLP cannot be directly measured through PMU counters. Instead, best practices typically rely on either full-system simulators or analytical/partial modeling approaches to quantify MLP characteristics.</p>
+<p>Unlike other performance metrics, MLP cannot be directly measured through PMU counters. Instead, best practices typically rely on either full-system simulators or analytical/partial modeling approaches to quantify MLP characteristics. There’s growing recognition of how important this metric is - for example, recent work like the MLP stack [1] helps visualize and understand MLP throughout the entire memory hierarchy.</p>
 
 <p>One practical approach to estimate average MLP is through the following perf events:</p>
 <ul>
@@ -72,7 +56,7 @@
 
 <p>This result highlights a crucial aspect of modern CPU performance analysis: while our binary search algorithm appears to be inherently serial, the actual MLP measurement shows significant parallelism. This discrepancy occurs because modern CPUs employ speculation techniques that can overlap memory operations, even in seemingly sequential code.</p>
 
-<p>The observed MLP of 8.76 is significantly higher than the expected value of 1, which can be explained by two types of out-of-order execution:</p>
+<p>The observed MLP is significantly higher than the expected value of 1, which can be explained by two types of out-of-order execution:</p>
 
 <ol>
   <li>
@@ -94,9 +78,9 @@
 <p>Calculating the MLP for this version:
 \(MLP_{avg} = \frac{109,103,656,601}{13,004,667,591} \approx 8.39\)</p>
 
-<p>This result is particularly interesting: despite using a serialization barrier, the MLP only decreased by about 5% from our original measurement of 8.76. This suggests that function-level overlap contributes less to our observed MLP than we might have expected, indicating that most of the parallelism comes from iteration-level overlap within each binary search operation.</p>
+<p>This result is particularly interesting: despite using a serialization barrier, the MLP only decreased by about 5% from our original measurement. This suggests that function-level overlap contributes less to our observed MLP than we might have expected, indicating that most of the parallelism comes from iteration-level overlap within each binary search operation.</p>
 
-<p>Running a branchless version we will be able to verify the MLP indeed comes from speculation:</p>
+<p>Running a branchless version we will be able to verify the MLP comes from speculation:</p>
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">binary_search_branchless</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">arr</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="o">*</span><span class="n">base</span> <span class="o">=</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
     <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">size</span><span class="p">;</span>
@@ -147,4 +131,14 @@
   </li>
 </ul>
 
-<p>Honestly, without a detailed microarchitecture simulator, it’s pretty hard to say exactly why our MLP isn’t maxing out the MSHRs. A full-on simulator would probably be able to figure it out, though.</p>]]></content><author><name></name></author><category term="cpu-architecture" /><category term="performance" /><category term="memory" /><category term="hardware" /><summary type="html"><![CDATA[Beyond binary search's $O(log n)$ complexity lies a story of CPU optimization. Modern processors don't wait for memory they predict, prefetch, and parallelize memory operations, turning what seems like a simple algorithm into a showcase of memory level parallelism.]]></summary></entry></feed>
+<p>Honestly, without a detailed microarchitecture simulator, it’s pretty hard to say exactly why our MLP isn’t maxing out the MSHRs. A full-on simulator would probably be able to figure it out, though.</p>
+
+<h2 id="references">References</h2>
+
+<p><a name="ref1"></a>[1] <strong>MLP Visualizer Tool</strong>: <a href="https://www.linkedin.com/posts/shoaib-akram-58999211b_efficient-exploitation-of-memory-level-parallelism-activity-7314176717437210624-pQt3/">Depicting the MLP stack</a></p>
+
+<p>[2] <strong>Andrew Glew</strong>: <a href="https://people.eecs.berkeley.edu/~kubitron/asplos98/abstracts/andrew_glew.pdf">MLP: Yes, There is a Free Lunch</a> - ASPLOS 1998</p>
+
+<p>[3] <strong>Intel Performance Monitoring Events</strong>: <a href="https://perfmon-events.intel.com/spxeon.html">Sapphire Rapids Performance Monitoring</a></p>
+
+<p>[4] <strong>Daniel Lemire’s Blog</strong>: <a href="https://lemire.me/blog/tag/mlp/">Memory Level Parallelism showcase</a></p>]]></content><author><name></name></author><category term="cpu-architecture" /><category term="performance" /><category term="memory" /><category term="hardware" /><summary type="html"><![CDATA[Beyond binary search's $O(log n)$ complexity lies a story of CPU optimization. Modern processors don't wait for memory they predict, prefetch, and parallelize memory operations, turning what seems like a simple algorithm into a showcase of memory level parallelism.]]></summary></entry></feed>

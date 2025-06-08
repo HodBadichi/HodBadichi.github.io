@@ -42,7 +42,7 @@ Only 20% of the time is spent on backend operations (including memory stalls). T
 
 ## Measuring Memory Level Parallelism
 
-Unlike other performance metrics, MLP cannot be directly measured through PMU counters. Instead, best practices typically rely on either full-system simulators or analytical/partial modeling approaches to quantify MLP characteristics. 
+Unlike other performance metrics, MLP cannot be directly measured through PMU counters. Instead, best practices typically rely on either full-system simulators or analytical/partial modeling approaches to quantify MLP characteristics. There's growing recognition of how important this metric is - for example, recent work like the MLP stack [1] helps visualize and understand MLP throughout the entire memory hierarchy. 
 
 One practical approach to estimate average MLP is through the following perf events:
 - `l1d_pend_miss.pending`: Total number of pending L1 data cache misses
@@ -69,7 +69,7 @@ $MLP_{avg} = \frac{98,278,263,019}{11,219,972,459} \approx 8.8$
 
 This result highlights a crucial aspect of modern CPU performance analysis: while our binary search algorithm appears to be inherently serial, the actual MLP measurement shows significant parallelism. This discrepancy occurs because modern CPUs employ speculation techniques that can overlap memory operations, even in seemingly sequential code. 
 
-The observed MLP of 8.76 is significantly higher than the expected value of 1, which can be explained by two types of out-of-order execution:
+The observed MLP is significantly higher than the expected value of 1, which can be explained by two types of out-of-order execution:
 
 1. Function-level overlap: The CPU can execute multiple `binary_search()` calls concurrently, as these are independent operations that don't require speculation.
 
@@ -87,10 +87,10 @@ To measure the impact of function-level overlap, we can use the `rdtscp` instruc
 Calculating the MLP for this version:
 $$MLP_{avg} = \frac{109,103,656,601}{13,004,667,591} \approx 8.39$$
 
-This result is particularly interesting: despite using a serialization barrier, the MLP only decreased by about 5% from our original measurement of 8.76. This suggests that function-level overlap contributes less to our observed MLP than we might have expected, indicating that most of the parallelism comes from iteration-level overlap within each binary search operation.
+This result is particularly interesting: despite using a serialization barrier, the MLP only decreased by about 5% from our original measurement. This suggests that function-level overlap contributes less to our observed MLP than we might have expected, indicating that most of the parallelism comes from iteration-level overlap within each binary search operation.
 
 
-Running a branchless version we will be able to verify the MLP indeed comes from speculation:
+Running a branchless version we will be able to verify the MLP comes from speculation:
 ```cpp
 int binary_search_branchless(const int arr[], int size, int target) {
     int *base = const_cast<int*>(arr);
@@ -132,3 +132,14 @@ In our binary search example, we observed an MLP of 8. This value reveals severa
   - Limited speculation depth beyond L1 cache
 
 Honestly, without a detailed microarchitecture simulator, it's pretty hard to say exactly why our MLP isn't maxing out the MSHRs. A full-on simulator would probably be able to figure it out, though.
+
+## References
+
+
+<a name="ref1"></a>[1] **MLP Visualizer Tool**: [Depicting the MLP stack](https://www.linkedin.com/posts/shoaib-akram-58999211b_efficient-exploitation-of-memory-level-parallelism-activity-7314176717437210624-pQt3/)
+
+[2] **Andrew Glew**: [MLP: Yes, There is a Free Lunch](https://people.eecs.berkeley.edu/~kubitron/asplos98/abstracts/andrew_glew.pdf) - ASPLOS 1998
+
+[3] **Intel Performance Monitoring Events**: [Sapphire Rapids Performance Monitoring](https://perfmon-events.intel.com/spxeon.html)
+
+[4] **Daniel Lemire's Blog**: [Memory Level Parallelism showcase](https://lemire.me/blog/tag/mlp/)

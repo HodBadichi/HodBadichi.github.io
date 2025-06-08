@@ -1,0 +1,5 @@
+current directory: /mnt/c/gitel/HodBadichi.github.io/vendor/bundle/ruby/3.0.0/gems/sass-embedded-1.69.5/ext/sass
+/usr/bin/ruby3.0 -I/usr/lib/ruby/vendor_ruby -rrubygems /mnt/c/gitel/HodBadichi.github.io/vendor/bundle/ruby/3.0.0/gems/rake-13.3.0/exe/rake RUBYARCHDIR\=/mnt/c/gitel/HodBadichi.github.io/vendor/bundle/ruby/3.0.0/extensions/x86_64-linux/3.0.0/sass-embedded-1.69.5 RUBYLIBDIR\=/mnt/c/gitel/HodBadichi.github.io/vendor/bundle/ruby/3.0.0/extensions/x86_64-linux/3.0.0/sass-embedded-1.69.5
+gem install --force --install-dir /mnt/c/gitel/HodBadichi.github.io/vendor/bundle/ruby/3.0.0/gems/sass-embedded-1.69.5/ext/sass/ruby --no-document --ignore-dependencies --platform x86_64-linux-gnu --version 1.69.5 sass-embedded
+cp -r /mnt/c/gitel/HodBadichi.github.io/vendor/bundle/ruby/3.0.0/gems/sass-embedded-1.69.5/ext/sass/ruby/gems/sass-embedded-1.69.5-x86_64-linux/ext/sass/dart-sass dart-sass
+rm -rf /mnt/c/gitel/HodBadichi.github.io/vendor/bundle/ruby/3.0.0/gems/sass-embedded-1.69.5/ext/sass/ruby

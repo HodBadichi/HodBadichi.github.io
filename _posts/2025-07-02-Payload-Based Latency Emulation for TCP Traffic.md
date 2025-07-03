@@ -12,7 +12,7 @@ Yet, TCP works its magic, guaranteeing that if you send 'Boil Water', 'Add Pasta
 
 What if you want to peek behind this curtain, perhaps to inspect or modify the mechanisms behind it? How can you deliberately force out-of-order packet delivery in a simple sender-receiver setup?
 
-<img src="/assets/images/2025/7/3/OoO-Example.png" alt="TCP Latency Emulation" width="800">
+<img src="/assets/images/2025/7/2/OoO-Example.png" alt="TCP Latency Emulation" width="800">
 
 We can achieve our goal by combining two powerful Linux tools:
 - **Traffic Control (TC)**
